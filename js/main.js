@@ -8,18 +8,12 @@ function pipe(...fns) {
 	return (initialVal) => fns.reduce((val, fn) => fn(val), initialVal);
 }
 
-function createCards(rank, suite) {
+function createCard(rank, suite) {
 	const card = document.createElement("game-card");
-	const face = document.createElement("img");
-	face.src = `cards/basic_deck/${rank}_of_${suite}.svg`;
-	face.alt = `${rank} of ${suite}`;
 	card.setAttribute("rank", rank);
 	card.setAttribute("suite", suite);
-	card.appendChild(face);
-
-	document.body.insertBefore(card, document.getElementById("hand"));
+	document.body.appendChild(card);
 }
-window.createCard = createCards;
 
 function initParticles() {
 	new Sparticles(document.getRootNode().body, Data.sparticle.abyss, 400);
@@ -34,6 +28,9 @@ function initCards() {
 	createCard(randRank(), randSuite());
 	createCard(randRank(), randSuite());
 	createCard(randRank(), randSuite());
+	createCard(randRank(), randSuite());
+	createCard(randRank(), randSuite());
 }
 
+window.initCards = initCards;
 window.onload = pipe(initParticles, initCards);

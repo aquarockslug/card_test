@@ -1,16 +1,18 @@
 import "./lib/hover-tilt.js";
 
 class Card extends HTMLElement {
-	static rank = 2;
-	static suite = "hearts";
+	static observedAttributes = ["rank", "suite"];
 
 	constructor() {
 		super();
 		this.attachShadow({ mode: "open" });
+		this._face = null;
 	}
 
-	// TODO attributeChangedCallback
-	// in suite or rank changes, update the image on the card
+	attributeChangedCallback(name, oldVal, newVal) {
+		if (newVal === oldVal) return;
+		this._updateFace();
+	}
 
 	connectedCallback() {
 		const slot = document.createElement("slot");
@@ -19,7 +21,7 @@ class Card extends HTMLElement {
 		hoverTilt.setAttribute("shadow", "");
 		hoverTilt.setAttribute("glare-intensity", "0.5");
 		hoverTilt.setAttribute("glare-hue", "200");
-		hoverTilt.setAttribute("scale-factor", "1.2");
+		hoverTilt.setAttribute("scale-factor", "1.1");
 		hoverTilt.setAttribute("tilt-factor", "1");
 		hoverTilt.setAttribute("tilt-factor-y", "1");
 
@@ -42,6 +44,22 @@ class Card extends HTMLElement {
 		hoverTilt.appendChild(slot);
 		this.shadowRoot.appendChild(style);
 		this.shadowRoot.appendChild(hoverTilt);
+
+		this._updateFace();
+	}
+
+	_updateFace() {
+		const rank = this.getAttribute("rank");
+		const suite = this.getAttribute("suite");
+		if (!rank || !suite) return;
+
+		if (!this._face) {
+			this._face = document.createElement("img");
+			this.appendChild(this._face);
+		}
+
+		this._face.src = `cards/basic_deck/${rank}_of_${suite}.svg`;
+		this._face.alt = `${rank} of ${suite}`;
 	}
 }
 
