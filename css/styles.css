@@ -31,16 +31,12 @@ game-card {
 	cursor: pointer;
 }
 
-game-card:hover {
+game-card[active], game-card:hover {
 	z-index: calc(infinity);
 }
 
-game-card[active] {
-	z-index: 100;
-}
-
 game-card + game-card {
-	margin-left: clamp(-120px, calc((100vw - 900px) * 1.4), 115px);
+	margin-left: clamp(-120px, calc((100vw - 900px) * 0.25), 115px);
 }
 
 #card-controls {
