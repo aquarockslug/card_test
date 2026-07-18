@@ -1,10 +1,5 @@
 body {
-	background-color: black;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	min-height: 100vh;
-	margin: 0;
+	background-color: #000d20;
 	overflow: hidden;
 }
 
@@ -18,9 +13,24 @@ canvas.sparticles {
 	z-index: 0;
 }
 
+#hand {
+	position: fixed;
+	width: 100%;
+	bottom: 0;
+	display: flex;
+	justify-content: center;
+	z-index: 1;
+	transform: scale(0.5);
+}
+
 game-card {
 	position: relative;
-	margin: 20px;
+	transform-origin: bottom center;
+	margin: -80px -75px;
+}
+
+game-card:hover {
+	z-index: calc(infinity);
 }
 
 game-card + game-card {

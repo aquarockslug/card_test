@@ -4,15 +4,17 @@ import "./game-card.js";
 
 window.Data = Data;
 
+const hand = document.getElementById("hand");
+
 function pipe(...fns) {
 	return (initialVal) => fns.reduce((val, fn) => fn(val), initialVal);
 }
 
-function createCard(rank, suite) {
+function createCard(rank, suite, index) {
 	const card = document.createElement("game-card");
 	card.setAttribute("rank", rank);
 	card.setAttribute("suite", suite);
-	document.body.appendChild(card);
+	hand.appendChild(card);
 }
 
 function initParticles() {
@@ -25,6 +27,8 @@ function initCards() {
 	var randSuite = () =>
 		Data.card.suite[Math.floor(Math.random() * Data.card.suite.length)];
 
+	createCard(randRank(), randSuite());
+	createCard(randRank(), randSuite());
 	createCard(randRank(), randSuite());
 	createCard(randRank(), randSuite());
 	createCard(randRank(), randSuite());

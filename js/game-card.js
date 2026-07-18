@@ -7,11 +7,8 @@ class Card extends HTMLElement {
 		super();
 		this.attachShadow({ mode: "open" });
 		this._face = null;
-	}
-
-	attributeChangedCallback(name, oldVal, newVal) {
-		if (newVal === oldVal) return;
-		this._updateFace();
+		this._vivus = null;
+		this._abortController = null;
 	}
 
 	connectedCallback() {
@@ -33,11 +30,12 @@ class Card extends HTMLElement {
       hover-tilt {
         display: flex;
       }
-      ::slotted(img) {
+      ::slotted(svg) {
         display: block;
         border-radius: 10px;
-        max-width: 250px;
+        width: 250px;
         height: auto;
+        background: white;
       }
     `;
 
@@ -48,18 +46,74 @@ class Card extends HTMLElement {
 		this._updateFace();
 	}
 
-	_updateFace() {
+	attributeChangedCallback(_name, oldVal, newVal) {
+		if (newVal === oldVal) return;
+		this._updateFace();
+	}
+
+	async _updateFace() {
 		const rank = this.getAttribute("rank");
 		const suite = this.getAttribute("suite");
 		if (!rank || !suite) return;
 
-		if (!this._face) {
-			this._face = document.createElement("img");
-			this.appendChild(this._face);
+		if (this._abortController) {
+			this._abortController.abort();
+		}
+		if (this._vivus) {
+			this._vivus.stop();
+			this._vivus = null;
+		}
+		if (this._face) {
+			this._face.remove();
+			this._face = null;
 		}
 
-		this._face.src = `cards/basic_deck/${rank}_of_${suite}.svg`;
-		this._face.alt = `${rank} of ${suite}`;
+		this._abortController = new AbortController();
+		const { signal } = this._abortController;
+
+		try {
+			const res = await fetch(`cards/basic_deck/${rank}_of_${suite}.svg`, {
+				signal,
+			});
+			const text = await res.text();
+			if (signal.aborted) return;
+
+			const doc = new DOMParser().parseFromString(text, "image/svg+xml");
+			const svg = doc.querySelector("svg");
+			if (!svg) return;
+
+			const imported = document.importNode(svg, true);
+			if (!this._face) {
+				this._face = imported;
+				this.appendChild(this._face);
+			}
+
+			const index = parseInt(this.dataset.index || "0", 10);
+			this._vivus = new Vivus(this._face, {
+				type: "delayed",
+				duration: 100,
+				start: "autostart",
+				delay: index * 10,
+				animTimingFunction: Vivus.EASE,
+				forceRender: false,
+			});
+
+			const paths = this._face.querySelectorAll("path");
+			for (const path of paths) {
+				path.style.stroke = "#000";
+				path.style.strokeWidth = "0.5";
+				path.style.strokeOpacity = "1";
+				path.style.fillOpacity = "0";
+			}
+			const texts = this._face.querySelectorAll("text");
+			for (const t of texts) {
+				t.style.opacity = "1";
+			}
+		} catch (e) {
+			if (e.name !== "AbortError") {
+				console.error("Card fetch error:", e);
+			}
+		}
 	}
 }
 
