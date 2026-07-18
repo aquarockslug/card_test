@@ -20,7 +20,7 @@ function initCards() {
 		const card = document.createElement("game-card");
 		card.setAttribute("rank", pick(Data.card.rank));
 		card.setAttribute("suite", pick(Data.card.suite));
-		hand.appendChild(card);
+		setTimeout(() => hand.appendChild(card), 50 * i);
 	}
 }
 

@@ -7,6 +7,7 @@ class Card extends HTMLElement {
 		super();
 		this.attachShadow({ mode: "open" });
 		this._face = this._vivus = this._abortController = null;
+		this._originalRank = this._originalSuite = null;
 	}
 
 	connectedCallback() {
@@ -64,7 +65,13 @@ class Card extends HTMLElement {
 		const rank = this.getAttribute("rank");
 		const suite = this.getAttribute("suite");
 		if (!rank || !suite) return;
+		if (!this._originalRank) {
+			this._originalRank = rank;
+			this._originalSuite = suite;
+		}
 		const isFaceCard = rank === "jack" || rank === "queen" || rank === "king";
+		const isChanged =
+			rank !== this._originalRank || suite !== this._originalSuite;
 
 		if (this._abortController) this._abortController.abort();
 		if (this._vivus) {
@@ -94,12 +101,10 @@ class Card extends HTMLElement {
 				? this.replaceChild(this._face, oldFace)
 				: this.appendChild(this._face);
 
-			if (!isFaceCard)
+			if (!isFaceCard && isChanged)
 				this._vivus = new Vivus(this._face, {
 					type: "sync",
-					duration: 50,
-					start: "autostart",
-					animTimingFunction: Vivus.EASE,
+					duration: 40,
 				});
 
 			this._face.querySelectorAll("path").forEach((p) => {
