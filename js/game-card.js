@@ -1,24 +1,30 @@
-import './lib/hover-tilt.js';
+import "./lib/hover-tilt.js";
 
 class Card extends HTMLElement {
-  constructor() {
-    super();
-    this.attachShadow({ mode: 'open' });
-  }
+	static rank = 2;
+	static suite = "hearts";
 
-  connectedCallback() {
-    const slot = document.createElement('slot');
-    const hoverTilt = document.createElement('hover-tilt');
+	constructor() {
+		super();
+		this.attachShadow({ mode: "open" });
+	}
 
-    hoverTilt.setAttribute('shadow', '');
-    hoverTilt.setAttribute('glare-intensity', '0.5');
-    hoverTilt.setAttribute('glare-hue', '200');
-    hoverTilt.setAttribute('scale-factor', '1.2');
-    hoverTilt.setAttribute('tilt-factor', '1');
-    hoverTilt.setAttribute('tilt-factor-y', '1');
+	// TODO attributeChangedCallback
+	// in suite or rank changes, update the image on the card
 
-    const style = document.createElement('style');
-    style.textContent = `
+	connectedCallback() {
+		const slot = document.createElement("slot");
+		const hoverTilt = document.createElement("hover-tilt");
+
+		hoverTilt.setAttribute("shadow", "");
+		hoverTilt.setAttribute("glare-intensity", "0.5");
+		hoverTilt.setAttribute("glare-hue", "200");
+		hoverTilt.setAttribute("scale-factor", "1.2");
+		hoverTilt.setAttribute("tilt-factor", "1");
+		hoverTilt.setAttribute("tilt-factor-y", "1");
+
+		const style = document.createElement("style");
+		style.textContent = `
       :host {
         display: inline-block;
       }
@@ -33,10 +39,10 @@ class Card extends HTMLElement {
       }
     `;
 
-    hoverTilt.appendChild(slot);
-    this.shadowRoot.appendChild(style);
-    this.shadowRoot.appendChild(hoverTilt);
-  }
+		hoverTilt.appendChild(slot);
+		this.shadowRoot.appendChild(style);
+		this.shadowRoot.appendChild(hoverTilt);
+	}
 }
 
-customElements.define('game-card', Card);
+customElements.define("game-card", Card);

@@ -1,35 +1,39 @@
-import './game-card.js';
-import Sparticles from './lib/sparticles.esm.js';
+import Data from "./data.js";
+import Sparticles from "./lib/sparticles.esm.js";
+import "./game-card.js";
 
-let fireCrackerParticles = {
-  "count": 125,
-  "speed": 25,
-  "parallax": 42,
-  "direction": 0,
-  "xVariance": 8,
-  "rotation": 3,
-  "alphaSpeed": 4,
-  "alphaVariance": 9,
-  "minSize": 4,
-  "maxSize": 16,
-  "style": "both",
-  "drift": 0,
-  "glow": 20,
-  "twinkle": true,
-  "spawnFromPoint": true,
-  "spawnArea": 10,
-  "staggerSpawn": 12,
-  "color": [
-    "#ffffff",
-    "#ffb366",
-    "#f3ca7c",
-    "#875005"
-  ],
-  "shape": ["star","circle"]
+window.Data = Data;
+
+function pipe(...fns) {
+	return (initialVal) => fns.reduce((val, fn) => fn(val), initialVal);
 }
+
+function createCards(rank, suite) {
+	const card = document.createElement("game-card");
+	const face = document.createElement("img");
+	face.src = `cards/basic_deck/${rank}_of_${suite}.svg`;
+	face.alt = `${rank} of ${suite}`;
+	card.setAttribute("rank", rank);
+	card.setAttribute("suite", suite);
+	card.appendChild(face);
+
+	document.body.insertBefore(card, document.getElementById("hand"));
+}
+window.createCard = createCards;
 
 function initParticles() {
-  new Sparticles(document.getRootNode().body, fireCrackerParticles, 400);
+	new Sparticles(document.getRootNode().body, Data.sparticle.abyss, 400);
 }
 
-window.onload = initParticles;
+function initCards() {
+	var randRank = () =>
+		Data.card.rank[Math.floor(Math.random() * Data.card.rank.length)];
+	var randSuite = () =>
+		Data.card.suite[Math.floor(Math.random() * Data.card.suite.length)];
+
+	createCard(randRank(), randSuite());
+	createCard(randRank(), randSuite());
+	createCard(randRank(), randSuite());
+}
+
+window.onload = pipe(initParticles, initCards);
