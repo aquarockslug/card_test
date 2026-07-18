@@ -5,6 +5,19 @@
     <script type="module" src="js/main.js"></script>
   </head>
   <body>
+	  <button onclick="initCards()">NEW CARDS</button>
 	  <div id="hand"></div>
+	  <div id="card-controls" class="hidden">
+		  <div class="control-group">
+			  <button type="button" id="rank-prev" title="Previous rank">&#9664;</button>
+			  <span id="rank-label"></span>
+			  <button type="button" id="rank-next" title="Next rank">&#9654;</button>
+		  </div>
+		  <div class="control-group">
+			  <button type="button" id="suite-prev" title="Previous suite">&#9664;</button>
+			  <span id="suite-label"></span>
+			  <button type="button" id="suite-next" title="Next suite">&#9654;</button>
+		  </div>
+	  </div>
   </body>
 </html>

@@ -1,6 +1,30 @@
 export default {
 	card: {
-		rank: [2, 3, 4, 5, 6, 7, 8, 9, 10, "jack", "king", "queen", "ace"],
+		background: "#3bd4f5",
+		effects: [
+			// https://hover-tilt.simey.me/options/props/
+			["shadow", "true"],
+			["glare-intensity", "0.5"],
+			["glare-hue", "200"],
+			["scale-factor", "1.1"],
+			["tilt-factor", "1"],
+			["tilt-factor-y", "1"],
+		],
+		rank: [
+			"2",
+			"3",
+			"4",
+			"5",
+			"6",
+			"7",
+			"8",
+			"9",
+			"10",
+			"jack",
+			"king",
+			"queen",
+			"ace",
+		],
 		suite: ["spades", "clubs", "hearts", "diamonds"],
 	},
 	sparticle: {
