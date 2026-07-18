@@ -14,15 +14,17 @@ const cycleValue = (arr, cur, delta) =>
 var iso = new Isomer(document.getElementById("board"));
 var Shape = Isomer.Shape;
 var Point = Isomer.Point;
-var Color = Isomer.Color ;
+var Color = Isomer.Color;
+var Path = Isomer.Path;
 
-var red = new Color(160, 60, 50);
-var blue = new Color(50, 60, 160);
-var black = new Color(0, 0, 0);
-
-iso.add(Shape.Prism(Point.ORIGIN, 5, 5, 1), black);
-iso.add(Shape.Pyramid(Point(1, 3, 1)), red);
-iso.add(Shape.Prism(Point(3, 1, 1)), blue);
+iso.add(
+	Shape.Prism(Point(Point.ORIGIN.x, Point.ORIGIN.y, 0), 5, 5, -10),
+	new Color(193, 180, 137),
+);
+iso.add(
+	Shape.Prism(Point(Point.ORIGIN.x, Point.ORIGIN.y, 0), 5, 5, 10),
+	new Color(50, 60, 160, 0.5),
+);
 
 function initParticles() {
 	new Sparticles(document.getRootNode().body, Data.sparticle.abyss);
