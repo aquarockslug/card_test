@@ -88,12 +88,10 @@ class Card extends HTMLElement {
 				this.appendChild(this._face);
 			}
 
-			const index = parseInt(this.dataset.index || "0", 10);
 			this._vivus = new Vivus(this._face, {
 				type: "delayed",
 				duration: 100,
 				start: "autostart",
-				delay: index * 10,
 				animTimingFunction: Vivus.EASE,
 				forceRender: false,
 			});
