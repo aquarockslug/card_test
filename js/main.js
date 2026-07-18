@@ -1,5 +1,5 @@
 import Data from "./data.js";
-import Sparticles from "./lib/sparticles.esm.js";
+import Sparticles from "./lib/sparticles.js";
 import "./game-card.js";
 
 window.Data = Data;
@@ -10,13 +10,27 @@ const getActiveCard = () => document.querySelector("game-card[active]");
 const cycleValue = (arr, cur, delta) =>
 	arr[(arr.indexOf(cur) + delta + arr.length) % arr.length];
 
+// ISOMER isometric view engine
+var iso = new Isomer(document.getElementById("board"));
+var Shape = Isomer.Shape;
+var Point = Isomer.Point;
+var Color = Isomer.Color ;
+
+var red = new Color(160, 60, 50);
+var blue = new Color(50, 60, 160);
+var black = new Color(0, 0, 0);
+
+iso.add(Shape.Prism(Point.ORIGIN, 5, 5, 1), black);
+iso.add(Shape.Pyramid(Point(1, 3, 1)), red);
+iso.add(Shape.Prism(Point(3, 1, 1)), blue);
+
 function initParticles() {
 	new Sparticles(document.getRootNode().body, Data.sparticle.abyss);
 }
 
 function initCards() {
 	hand.innerHTML = "";
-	for (let i = 0; i < 7; i++) {
+	for (let i = 0; i < 5; i++) {
 		const card = document.createElement("game-card");
 		card.setAttribute("rank", pick(Data.card.rank));
 		card.setAttribute("suite", pick(Data.card.suite));
