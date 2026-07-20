@@ -4,6 +4,7 @@ import Sparticles from "./lib/sparticles.js";
 import "./game-card.js";
 
 window.Data = Data;
+const hand = document.getElementById("hand");
 
 let last_time = null;
 let total_time = 0;
@@ -16,9 +17,33 @@ setInterval(function gameLoop() {
 	tick(delta_time, total_time);
 }, 1000 / 25); // the game runs at 25 ticks per second
 
-function tick(delta_time, total_time) {}
+// TODO make a numeric display web componant
+const energyNumericDisplay = document.getElementById("energy");
+const manaNumericDisplay = document.getElementById("mana");
+let mana, energy, control;
+mana = energy = control = 0;
+window.mana = mana;
 
-const hand = document.getElementById("hand");
+let manaGen = 0.001; // the most basic resource, mana, naturally generates by this much every millisecond
+let transmutePower = 0.0001; // the base rate that reasources can be transmuted
+
+function tick(deltaTime, totalTime) {
+	mana += manaGen * deltaTime;
+
+	// mana is turned into energy based on the amount of red cards in hand
+	let heartCount = document.querySelectorAll(
+		"#hand>game-card[suite=hearts]",
+	).length;
+	let transmuteAmount = transmutePower * heartCount * deltaTime;
+	if (mana - transmuteAmount > 0) {
+		mana -= transmuteAmount;
+		energy += transmuteAmount;
+	}
+
+	energyNumericDisplay.textContent = energy.toFixed(2);
+	manaNumericDisplay.textContent = mana.toFixed(2);
+}
+
 const pick = (arr) => arr[Math.floor(Math.random() * arr.length)];
 const getActiveCard = () => document.querySelector("game-card[active]");
 
@@ -26,14 +51,17 @@ function initParticles() {
 	new Sparticles(document.getRootNode().body, Data.sparticle.abyss);
 }
 
+function addCard(rank, suite, location) {
+	const card = document.createElement("game-card");
+	card.setAttribute("rank", rank);
+	card.setAttribute("suite", suite);
+	location.appendChild(card);
+}
+window.addCard = (rank, suite) => addCard(rank, suite, hand);
+
 function initCards(amount = 7) {
 	hand.innerHTML = "";
-	for (let i = 0; i < amount; i++) {
-		const card = document.createElement("game-card");
-		card.setAttribute("rank", pick(Data.card.rank));
-		card.setAttribute("suite", pick(Data.card.suite));
-		setTimeout(() => hand.appendChild(card), 50 * i);
-	}
+	addCard("ace", "hearts", hand);
 }
 
 function initDeselect() {

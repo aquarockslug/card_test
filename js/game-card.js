@@ -112,7 +112,7 @@ class Card extends HTMLElement {
 				p.style.fillOpacity = isFaceCard ? "1" : "0";
 			});
 			this._face.querySelectorAll("text").forEach((t) => {
-				t.style.opacity = isFaceCard ? "1" : "0";
+				// t.style.opacity = isFaceCard ? "1" : "0";
 			});
 		} catch (e) {
 			if (e.name !== "AbortError") console.error("Card fetch error:", e);

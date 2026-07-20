@@ -6,6 +6,12 @@
     <script type="module" src="js/main.js"></script>
   </head>
   <body>
+	  <button onclick="addCard('ace', 'hearts')">Draw Card</button>
+	  <div id="display" style="position:absolute; display:flex; justify-content: space-around; width:50%">
+	    <h1 id="mana" style="color:purple">0</h1>
+	    <h1 id="energy" style="color:red">0</h1>
+	    <h1 id="control" style="color:green">0</h1>
+	  </div>
 	  <canvas width="800" height="800" id="board"></canvas>
 	  <div id="hand"></div>
   </body>
