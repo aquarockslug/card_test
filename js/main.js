@@ -8,7 +8,11 @@ const hand = document.getElementById("hand");
 const energyEl = document.getElementById("energy");
 const manaEl = document.getElementById("mana");
 
-let lastTime = null, totalTime = 0, mana = 0, energy = 0, control = 0;
+let lastTime = null,
+	totalTime = 0,
+	mana = 0,
+	energy = 0,
+	control = 0;
 const manaGen = 0.001;
 const transmutePower = 0.0001;
 
@@ -20,9 +24,14 @@ setInterval(() => {
 	lastTime = now;
 
 	mana += manaGen * dt;
-	const hearts = document.querySelectorAll("#hand>game-card[suite=hearts]").length;
+	const hearts = document.querySelectorAll(
+		"#hand>game-card[suite=hearts]",
+	).length;
 	const amount = transmutePower * hearts * dt;
-	if (mana - amount > 0) { mana -= amount; energy += amount; }
+	if (mana - amount > 0) {
+		mana -= amount;
+		energy += amount;
+	}
 
 	energyEl.textContent = energy.toFixed(2);
 	manaEl.textContent = mana.toFixed(2);
@@ -39,7 +48,6 @@ function addCard(rank, suite, location) {
 }
 window.addCard = (rank, suite) => addCard(rank, suite, hand);
 window.addRandomCard = () => addCard(null, null, hand);
-window.addRandomHand = (count = 5) => { for (let i = 0; i < count; i++) addCard(null, null, hand); };
 window.modifySelectedCard = (attrs) => {
 	const card = getActiveCard();
 	if (card) for (const [k, v] of Object.entries(attrs)) card.setAttribute(k, v);
@@ -51,12 +59,7 @@ function shiftRank(delta) {
 	const i = ranks.indexOf(card.getAttribute("rank"));
 	card.setAttribute("rank", ranks[(i + delta + ranks.length) % ranks.length]);
 }
-window.incrementRank = () => shiftRank(1);
-window.decrementRank = () => shiftRank(-1);
-window.initCards = () => {
-	hand.innerHTML = "";
-	addCard("ace", "hearts", hand);
-};
+window.shiftRank = shiftRank;
 
 window.onload = () => {
 	new Sparticles(document.getRootNode().body, Data.sparticle.abyss);

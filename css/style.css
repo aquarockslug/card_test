@@ -1,4 +1,3 @@
-/* ---- Abyss Game Overrides (scoped, not global) ---- */
 #game-ui {
 	--sys-color-white: #c8ecf8;
 	--sys-color-black: #000000;
@@ -11,6 +10,13 @@
 	--disabled: #1a3a52;
 
 	--box-shadow: 0 0 12px rgba(10, 240, 255, 0.2);
+
+	position: relative;
+	z-index: 1;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	width: 100%;
 }
 
 /* ---- Abyss Windows ---- */
@@ -57,16 +63,6 @@ canvas.sparticles {
 	z-index: 0;
 }
 
-/* ---- Game UI Container ---- */
-#game-ui {
-	position: relative;
-	z-index: 1;
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	width: 100%;
-}
-
 /* ---- Title Bar ---- */
 #game-ui > .title-bar {
 	width: 100%;
@@ -75,7 +71,6 @@ canvas.sparticles {
 
 #game-ui > .title-bar .title {
 	background: #0a2540;
-	text-shadow: 0 0 8px rgba(10, 240, 255, 0.5);
 }
 
 /* ---- Controls Bar ---- */
@@ -160,9 +155,6 @@ canvas.sparticles {
 .title-bar button.minimize:active {
 	background-color: var(--secondary);
 	background-image: linear-gradient(var(--primary) 0%, var(--primary) 100%);
-	background-position: center 70%;
-	background-size: 50% 4px;
-	background-repeat: no-repeat;
 }
 
 /* ---- Board Layout ---- */
@@ -181,7 +173,6 @@ canvas.sparticles {
 #board-layout .window {
 	flex: 1 1 400px;
 	min-width: 250px;
-	margin: 0;
 	position: absolute;
 	top: 0;
 	height: 100%;
