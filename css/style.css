@@ -1,3 +1,7 @@
+:root {
+	--microtip-font-size: 16px;
+}
+
 #game-ui {
 	--sys-color-white: #c8ecf8;
 	--sys-color-black: #000000;
@@ -142,6 +146,19 @@ canvas.sparticles {
 #control-display .resource-value {
 	color: #34d399;
 	text-shadow: 0 0 10px rgba(52, 211, 153, 0.4);
+}
+
+/* ---- Resource Tooltips ---- */
+[role~="tooltip"][data-microtip-position|="bottom"]::after {
+	background: rgba(4, 21, 37, 0.95);
+	border: 1px solid rgba(10, 240, 255, 0.25);
+	color: var(--sys-color-white);
+	box-shadow: 0 0 12px rgba(10, 240, 255, 0.15);
+}
+
+[role~="tooltip"][data-microtip-position|="bottom"]::before {
+	background: url("data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%2236px%22%20height%3D%2212px%22%3E%3Cpath%20fill%3D%22rgba%284,%2021,%2037,%200.95%29%22%20transform%3D%22rotate%28180%2018%206%29%22%20d%3D%22M2.658,0.000%20C-13.615,0.000%2050.938,0.000%2034.662,0.000%20C28.662,0.000%2023.035,12.002%2018.660,12.002%20C14.285,12.002%208.594,0.000%202.658,0.000%20Z%22/%3E%3C/svg%3E")
+		no-repeat;
 }
 
 /* ---- Minimize Button ---- */

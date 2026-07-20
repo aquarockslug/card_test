@@ -6,6 +6,7 @@
     <title>AbyssalCards</title>
     <link rel="stylesheet" href="css/modern-normalize.css">
     <link rel="stylesheet" href="css/system.css">
+    <link rel="stylesheet" href="css/microtip.css">
     <link rel="stylesheet" href="css/style.css">
     <script src="js/lib/vivus.js"></script>
     <script src="js/lib/isomer.js"></script>
@@ -21,17 +22,17 @@
 
       <div id="controls">
         <div id="resources">
-          <div class="resource" id="mana-display">
+          <div class="resource" id="mana-display" role="tooltip" aria-label="Mana is generated naturally over time" data-microtip-position="bottom">
             <span class="resource-label">Mana</span>
-            <span class="resource-value" id="mana">0</span>
+            <span class="resource-value" id="mana">0.00</span>
           </div>
-          <div class="resource" id="energy-display">
+          <div class="resource" id="energy-display" role="tooltip" aria-label="Heart cards transmute mana into energy" data-microtip-position="bottom">
             <span class="resource-label">Energy</span>
-            <span class="resource-value" id="energy">0</span>
+            <span class="resource-value" id="energy">0.00</span>
           </div>
-          <div class="resource" id="control-display">
+          <div class="resource" id="control-display" role="tooltip" aria-label="Control can be spent on upgrades" data-microtip-position="bottom">
             <span class="resource-label">Control</span>
-            <span class="resource-value" id="control">0</span>
+            <span class="resource-value" id="control">0.00</span>
           </div>
         </div>
       </div>
@@ -40,7 +41,7 @@
         <aside class="window" id="left-panel">
           <header class="title-bar">
             <button type="button" class="close hidden"><span>Close</span></button>
-            <span class="title">Programs</span>
+            <span class="title">Spells</span>
             <button type="button" class="minimize" aria-label="Minimize"><span>Minimize</span></button>
           </header>
           <div class="window-pane">
