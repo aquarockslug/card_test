@@ -24,7 +24,7 @@ class Card extends HTMLElement {
 		for (const [k, v] of Data.card.effects) hoverTilt.setAttribute(k, v);
 
 		const style = document.createElement("style");
-		style.textContent = `:host{display:inline-block}hover-tilt{display:flex}::slotted(svg){display:block;border-radius:10px;width:250px;height:auto;background:${Data.card.background}}`;
+		style.textContent = `:host{display:inline-block}hover-tilt{display:flex}::slotted(svg){display:block;border-radius:10px;width:250px;height:auto;background:${Data.card.background};border:2px solid #fff}`;
 
 		hoverTilt.appendChild(slot);
 		this.shadowRoot.append(style, hoverTilt);
