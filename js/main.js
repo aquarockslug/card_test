@@ -72,5 +72,15 @@ function initDeselect() {
 }
 
 window.initCards = initCards;
+function initMinimizeButtons() {
+	document.querySelectorAll(".title-bar .minimize").forEach((btn) => {
+		btn.addEventListener("click", (e) => {
+			e.stopPropagation();
+			const window = btn.closest(".window");
+			window.classList.toggle("minimized");
+		});
+	});
+}
+
 window.onload = () =>
-	[initParticles, initWorld, initCards, initDeselect].map((fn) => fn());
+	[initParticles, initWorld, initCards, initDeselect, initMinimizeButtons].map((fn) => fn());

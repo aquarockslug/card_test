@@ -1,5 +1,9 @@
+<!DOCTYPE html>
 <html lang="en">
   <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>AbyssalCards</title>
     <link rel="stylesheet" href="css/modern-normalize.css">
     <link rel="stylesheet" href="css/system.css">
     <link rel="stylesheet" href="css/style.css">
@@ -8,13 +12,56 @@
     <script type="module" src="js/main.js"></script>
   </head>
   <body>
-	  <button onclick="addCard('ace', 'hearts')" style="height:50px">Draw Card</button>
-	  <div id="display" style="position:absolute; display:flex; justify-content: space-around; width:50%">
-	    <h1 id="mana" style="color:purple">0</h1>
-	    <h1 id="energy" style="color:red">0</h1>
-	    <h1 id="control" style="color:green">0</h1>
-	  </div>
-	  <canvas width="800" height="800" id="board"></canvas>
-	  <div id="hand"></div>
+    <div id="game-ui">
+      <header class="title-bar">
+        <button type="button" class="close hidden"><span>Close</span></button>
+        <span class="title" style="color:white">AbyssalCards</span>
+        <button type="button" class="resize hidden"><span>Resize</span></button>
+      </header>
+
+      <div id="controls">
+        <div id="resources">
+          <div class="resource" id="mana-display">
+            <span class="resource-label">Mana</span>
+            <span class="resource-value" id="mana">0</span>
+          </div>
+          <div class="resource" id="energy-display">
+            <span class="resource-label">Energy</span>
+            <span class="resource-value" id="energy">0</span>
+          </div>
+          <div class="resource" id="control-display">
+            <span class="resource-label">Control</span>
+            <span class="resource-value" id="control">0</span>
+          </div>
+        </div>
+      </div>
+
+      <div id="board-layout">
+        <aside class="window" id="left-panel">
+          <header class="title-bar">
+            <button type="button" class="close hidden"><span>Close</span></button>
+            <span class="title">Programs</span>
+            <button type="button" class="minimize" aria-label="Minimize"><span>Minimize</span></button>
+          </header>
+          <div class="window-pane">
+            <button type="button" class="btn" onclick="addCard('ace', 'hearts')">Generate Card</button>
+          </div>
+        </aside>
+
+        <canvas width="800" height="800" id="world"></canvas>
+
+        <aside class="window" id="right-panel">
+          <header class="title-bar">
+            <button type="button" class="close hidden"><span>Close</span></button>
+            <span class="title">Log</span>
+            <button type="button" class="minimize" aria-label="Minimize"><span>Minimize</span></button>
+          </header>
+          <div class="window-pane">
+            <p>Game log empty.</p>
+          </div>
+        </aside>
+      </div>
+    </div>
+    <div id="hand"></div>
   </body>
 </html>
