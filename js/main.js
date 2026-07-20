@@ -25,6 +25,8 @@ mana = energy = control = 0;
 window.mana = mana;
 
 let manaGen = 0.001; // the most basic resource, mana, naturally generates by this much every millisecond
+
+// TODO make transmute power scale with the "control" resource
 let transmutePower = 0.0001; // the base rate that reasources can be transmuted
 
 function tick(deltaTime, totalTime) {
@@ -59,6 +61,23 @@ function addCard(rank, suite, location) {
 }
 window.addCard = (rank, suite) => addCard(rank, suite, hand);
 
+function addRandomCard() {
+	const rank = pick(Data.card.rank);
+	const suite = pick(Data.card.suite);
+	addCard(rank, suite, hand);
+}
+window.addRandomCard = addRandomCard;
+
+function addRandomHand(count = 5) {
+	for (let i = 0; i < count; i++) addRandomCard();
+}
+window.addRandomHand = addRandomHand;
+
+function clearHand() {
+	hand.innerHTML = "";
+}
+window.clearHand = clearHand;
+
 function initCards(amount = 7) {
 	hand.innerHTML = "";
 	addCard("ace", "hearts", hand);
@@ -83,4 +102,6 @@ function initMinimizeButtons() {
 }
 
 window.onload = () =>
-	[initParticles, initWorld, initCards, initDeselect, initMinimizeButtons].map((fn) => fn());
+	[initParticles, initWorld, initCards, initDeselect, initMinimizeButtons].map(
+		(fn) => fn(),
+	);

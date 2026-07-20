@@ -44,7 +44,47 @@
             <button type="button" class="minimize" aria-label="Minimize"><span>Minimize</span></button>
           </header>
           <div class="window-pane">
-            <button type="button" class="btn" onclick="addCard('ace', 'hearts')">Generate Card</button>
+            <div class="btn-group">
+              <button type="button" class="btn" onclick="addRandomCard()">Random</button>
+              <button type="button" class="btn" onclick="addRandomHand(5)">Draw 5</button>
+              <button type="button" class="btn" onclick="clearHand()">Clear</button>
+            </div>
+
+            <span class="btn-group-label">Hearts</span>
+            <div class="btn-group">
+              <button type="button" class="btn" onclick="addCard('ace','hearts')">A</button>
+              <button type="button" class="btn" onclick="addCard('2','hearts')">2</button>
+              <button type="button" class="btn" onclick="addCard('3','hearts')">3</button>
+              <button type="button" class="btn" onclick="addCard('4','hearts')">4</button>
+              <button type="button" class="btn" onclick="addCard('5','hearts')">5</button>
+            </div>
+
+            <span class="btn-group-label">Spades</span>
+            <div class="btn-group">
+              <button type="button" class="btn" onclick="addCard('ace','spades')">A</button>
+              <button type="button" class="btn" onclick="addCard('2','spades')">2</button>
+              <button type="button" class="btn" onclick="addCard('3','spades')">3</button>
+              <button type="button" class="btn" onclick="addCard('4','spades')">4</button>
+              <button type="button" class="btn" onclick="addCard('5','spades')">5</button>
+            </div>
+
+            <span class="btn-group-label">Diamonds</span>
+            <div class="btn-group">
+              <button type="button" class="btn" onclick="addCard('ace','diamonds')">A</button>
+              <button type="button" class="btn" onclick="addCard('2','diamonds')">2</button>
+              <button type="button" class="btn" onclick="addCard('3','diamonds')">3</button>
+              <button type="button" class="btn" onclick="addCard('4','diamonds')">4</button>
+              <button type="button" class="btn" onclick="addCard('5','diamonds')">5</button>
+            </div>
+
+            <span class="btn-group-label">Clubs</span>
+            <div class="btn-group">
+              <button type="button" class="btn" onclick="addCard('ace','clubs')">A</button>
+              <button type="button" class="btn" onclick="addCard('2','clubs')">2</button>
+              <button type="button" class="btn" onclick="addCard('3','clubs')">3</button>
+              <button type="button" class="btn" onclick="addCard('4','clubs')">4</button>
+              <button type="button" class="btn" onclick="addCard('5','clubs')">5</button>
+            </div>
           </div>
         </aside>
 

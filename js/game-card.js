@@ -39,21 +39,32 @@ class Card extends HTMLElement {
 		this._selected = true;
 		this.setAttribute("active", "");
 
+		const tilt = this.shadowRoot?.querySelector("hover-tilt");
+		if (tilt) {
+			this._prevScaleFactor = tilt.getAttribute("scale-factor");
+			tilt.setAttribute("scale-factor", "1");
+		}
+
 		const { left, width, top, height } = this.getBoundingClientRect();
 		const deltaX = (window.innerWidth / 2 - left - width / 2) * 2;
 		const deltaY = (window.innerHeight / 2 - top - height / 2) * 2;
 
-		Object.assign(this.style, {
-			transformOrigin: "center center",
-			transform: `translate(${deltaX}px, ${deltaY}px) scale(2)`,
-		});
+		this.style.transform = `translate(${deltaX}px, ${deltaY}px) scale(2)`;
 		this.dispatchEvent(new CustomEvent("card-select", { bubbles: true }));
 	}
 
 	_deselect() {
 		this._selected = false;
 		this.removeAttribute("active");
-		Object.assign(this.style, { transformOrigin: "", transform: "" });
+
+		const tilt = this.shadowRoot?.querySelector("hover-tilt");
+		if (tilt && this._prevScaleFactor != null) {
+			tilt.setAttribute("scale-factor", this._prevScaleFactor);
+		}
+
+		requestAnimationFrame(() => {
+			this.style.transform = "";
+		});
 		this.dispatchEvent(new CustomEvent("card-deselect", { bubbles: true }));
 	}
 
@@ -69,7 +80,6 @@ class Card extends HTMLElement {
 			this._originalRank = rank;
 			this._originalSuite = suite;
 		}
-		const isFaceCard = rank === "jack" || rank === "queen" || rank === "king";
 		const isChanged =
 			rank !== this._originalRank || suite !== this._originalSuite;
 
@@ -85,7 +95,7 @@ class Card extends HTMLElement {
 		const { signal } = this._abortController;
 
 		try {
-			const res = await fetch(`cards/basic_deck/${rank}_of_${suite}.svg`, {
+			const res = await fetch(`cards/${rank}_of_${suite}.svg`, {
 				signal,
 			});
 			const text = await res.text();
@@ -101,7 +111,7 @@ class Card extends HTMLElement {
 				? this.replaceChild(this._face, oldFace)
 				: this.appendChild(this._face);
 
-			if (!isFaceCard && isChanged)
+			if (isChanged)
 				this._vivus = new Vivus(this._face, {
 					type: "sync",
 					duration: 40,
@@ -109,10 +119,7 @@ class Card extends HTMLElement {
 
 			this._face.querySelectorAll("path").forEach((p) => {
 				p.style.stroke = "#fff";
-				p.style.fillOpacity = isFaceCard ? "1" : "0";
-			});
-			this._face.querySelectorAll("text").forEach((t) => {
-				// t.style.opacity = isFaceCard ? "1" : "0";
+				p.style.fillOpacity = "0";
 			});
 		} catch (e) {
 			if (e.name !== "AbortError") console.error("Card fetch error:", e);

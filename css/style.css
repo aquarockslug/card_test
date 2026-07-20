@@ -242,14 +242,14 @@ canvas.sparticles {
 	display: flex;
 	justify-content: center;
 	z-index: 10;
-	transform: scale(0.55);
+	transform: scale(0.66);
 	transform-origin: bottom center;
 }
 
 /* ---- Game Card ---- */
 game-card {
 	position: relative;
-	transform-origin: bottom center;
+	transform-origin: center center;
 	margin: -80px -75px;
 	transition:
 		transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1),
@@ -274,4 +274,33 @@ game-card + game-card {
 ::selection {
 	background: rgba(10, 240, 255, 0.3);
 	color: #fff;
+}
+
+/* ---- Programs Window Buttons ---- */
+#left-panel .window-pane {
+	overflow-y: auto;
+	display: flex;
+	flex-direction: column;
+	gap: 0.4rem;
+}
+
+.btn-group {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 4px;
+}
+
+.btn-group .btn {
+	min-width: 0;
+	padding: 2px 8px;
+	font-size: 14px;
+}
+
+.btn-group-label {
+	font-size: 12px;
+	color: var(--secondary);
+	opacity: 0.6;
+	text-transform: uppercase;
+	letter-spacing: 1px;
+	margin-top: 0.25rem;
 }
