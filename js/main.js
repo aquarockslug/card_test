@@ -22,7 +22,10 @@ setInterval(() => {
 	const dt = now - lastTime;
 	totalTime += dt;
 	lastTime = now;
+	gameTick(dt, totalTime);
+}, 1000 / 25);
 
+function gameTick(dt, t) {
 	mana += manaGen * dt;
 	const hearts = document.querySelectorAll(
 		"#hand>game-card[suite=hearts]",
@@ -35,7 +38,7 @@ setInterval(() => {
 
 	energyEl.textContent = energy.toFixed(2);
 	manaEl.textContent = mana.toFixed(2);
-}, 1000 / 25);
+}
 
 const pick = (arr) => arr[Math.floor(Math.random() * arr.length)];
 const getActiveCard = () => document.querySelector("game-card[active]");
@@ -64,7 +67,6 @@ window.shiftRank = shiftRank;
 window.onload = () => {
 	new Sparticles(document.getRootNode().body, Data.sparticle.abyss);
 	initWorld();
-	window.initCards();
 	document.addEventListener("click", (e) => {
 		if (!e.target.closest("#left-panel")) getActiveCard()?._deselect();
 	});
