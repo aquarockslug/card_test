@@ -1,3 +1,6 @@
+// a custom web component representing a card in the game
+// they have a rank and suite attribute
+
 import "./lib/hover-tilt.js";
 
 class Card extends HTMLElement {
@@ -46,8 +49,8 @@ class Card extends HTMLElement {
 		}
 
 		const { left, width, top, height } = this.getBoundingClientRect();
-		const deltaX = (window.innerWidth / 2 - left - width / 2) * 2;
-		const deltaY = (window.innerHeight / 2 - top - height / 2) * 2;
+		const deltaX = window.innerWidth / 2 - left - width / 2;
+		const deltaY = window.innerHeight / 2 - top - height / 2;
 
 		this.style.transform = `translate(${deltaX}px, ${deltaY}px) scale(2)`;
 		this.dispatchEvent(new CustomEvent("card-select", { bubbles: true }));

@@ -5,103 +5,70 @@ import "./game-card.js";
 
 window.Data = Data;
 const hand = document.getElementById("hand");
+const energyEl = document.getElementById("energy");
+const manaEl = document.getElementById("mana");
 
-let last_time = null;
-let total_time = 0;
-setInterval(function gameLoop() {
-	const current_time = Date.now();
-	if (last_time === null) last_time = current_time;
-	const delta_time = current_time - last_time;
-	total_time += delta_time;
-	last_time = current_time;
-	tick(delta_time, total_time);
-}, 1000 / 25); // the game runs at 25 ticks per second
+let lastTime = null, totalTime = 0, mana = 0, energy = 0, control = 0;
+const manaGen = 0.001;
+const transmutePower = 0.0001;
 
-// TODO make a numeric display web componant
-const energyNumericDisplay = document.getElementById("energy");
-const manaNumericDisplay = document.getElementById("mana");
-let mana, energy, control;
-mana = energy = control = 0;
-window.mana = mana;
+setInterval(() => {
+	const now = Date.now();
+	if (lastTime === null) lastTime = now;
+	const dt = now - lastTime;
+	totalTime += dt;
+	lastTime = now;
 
-let manaGen = 0.001; // the most basic resource, mana, naturally generates by this much every millisecond
+	mana += manaGen * dt;
+	const hearts = document.querySelectorAll("#hand>game-card[suite=hearts]").length;
+	const amount = transmutePower * hearts * dt;
+	if (mana - amount > 0) { mana -= amount; energy += amount; }
 
-// TODO make transmute power scale with the "control" resource
-let transmutePower = 0.0001; // the base rate that reasources can be transmuted
-
-function tick(deltaTime, totalTime) {
-	mana += manaGen * deltaTime;
-
-	// mana is turned into energy based on the amount of red cards in hand
-	let heartCount = document.querySelectorAll(
-		"#hand>game-card[suite=hearts]",
-	).length;
-	let transmuteAmount = transmutePower * heartCount * deltaTime;
-	if (mana - transmuteAmount > 0) {
-		mana -= transmuteAmount;
-		energy += transmuteAmount;
-	}
-
-	energyNumericDisplay.textContent = energy.toFixed(2);
-	manaNumericDisplay.textContent = mana.toFixed(2);
-}
+	energyEl.textContent = energy.toFixed(2);
+	manaEl.textContent = mana.toFixed(2);
+}, 1000 / 25);
 
 const pick = (arr) => arr[Math.floor(Math.random() * arr.length)];
 const getActiveCard = () => document.querySelector("game-card[active]");
 
-function initParticles() {
-	new Sparticles(document.getRootNode().body, Data.sparticle.abyss);
-}
-
 function addCard(rank, suite, location) {
 	const card = document.createElement("game-card");
-	card.setAttribute("rank", rank);
-	card.setAttribute("suite", suite);
+	card.setAttribute("rank", rank || pick(Data.card.rank));
+	card.setAttribute("suite", suite || pick(Data.card.suite));
 	location.appendChild(card);
 }
 window.addCard = (rank, suite) => addCard(rank, suite, hand);
-
-function addRandomCard() {
-	const rank = pick(Data.card.rank);
-	const suite = pick(Data.card.suite);
-	addCard(rank, suite, hand);
+window.addRandomCard = () => addCard(null, null, hand);
+window.addRandomHand = (count = 5) => { for (let i = 0; i < count; i++) addCard(null, null, hand); };
+window.modifySelectedCard = (attrs) => {
+	const card = getActiveCard();
+	if (card) for (const [k, v] of Object.entries(attrs)) card.setAttribute(k, v);
+};
+function shiftRank(delta) {
+	const card = getActiveCard();
+	if (!card) return;
+	const ranks = Data.card.rank;
+	const i = ranks.indexOf(card.getAttribute("rank"));
+	card.setAttribute("rank", ranks[(i + delta + ranks.length) % ranks.length]);
 }
-window.addRandomCard = addRandomCard;
-
-function addRandomHand(count = 5) {
-	for (let i = 0; i < count; i++) addRandomCard();
-}
-window.addRandomHand = addRandomHand;
-
-function clearHand() {
-	hand.innerHTML = "";
-}
-window.clearHand = clearHand;
-
-function initCards(amount = 7) {
+window.incrementRank = () => shiftRank(1);
+window.decrementRank = () => shiftRank(-1);
+window.initCards = () => {
 	hand.innerHTML = "";
 	addCard("ace", "hearts", hand);
-}
+};
 
-function initDeselect() {
-	document.addEventListener("click", () => {
-		const active = getActiveCard();
-		if (active) active._deselect();
+window.onload = () => {
+	new Sparticles(document.getRootNode().body, Data.sparticle.abyss);
+	initWorld();
+	window.initCards();
+	document.addEventListener("click", (e) => {
+		if (!e.target.closest("#left-panel")) getActiveCard()?._deselect();
 	});
-}
-
-window.initCards = initCards;
-function initMinimizeButtons() {
 	document.querySelectorAll(".title-bar .minimize").forEach((btn) => {
 		btn.addEventListener("click", (e) => {
 			e.stopPropagation();
-			const window = btn.closest(".window");
-			window.classList.toggle("minimized");
+			btn.closest(".window").classList.toggle("minimized");
 		});
 	});
-}
-
-window.onload = () =>
-	[initParticles, initWorld, initCards, initDeselect, initMinimizeButtons].map(
-		(fn) => fn(),
-	);
+};

@@ -18,10 +18,7 @@
 	color: var(--sys-color-white);
 }
 
-#game-ui .btn {
-	border-image: url("./icon/button-abyss.svg") 30 stretch;
-}
-
+#game-ui .btn,
 #game-ui .btn:disabled {
 	border-image: url("./icon/button-abyss.svg") 30 stretch;
 }
@@ -185,10 +182,10 @@ canvas.sparticles {
 	flex: 1 1 400px;
 	min-width: 250px;
 	margin: 0;
-	position: sticky;
-	top: 120px;
-	height: 650px;
-	z-index: 2;
+	position: absolute;
+	top: 0;
+	height: 100%;
+	z-index: 3;
 	transition: height 0.2s ease;
 }
 
@@ -214,13 +211,6 @@ canvas.sparticles {
 	flex-shrink: 0;
 }
 
-#board-layout .window {
-	position: absolute;
-	top: 0;
-	height: 100%;
-	z-index: 3;
-}
-
 #board-layout .window#left-panel {
 	left: 0;
 }
@@ -229,20 +219,15 @@ canvas.sparticles {
 	right: 0;
 }
 
-#board {
-	position: relative;
-	z-index: 1;
-}
-
 /* ---- Card Hand ---- */
 #hand {
 	position: fixed;
 	width: 100%;
-	bottom: -40px;
+	bottom: -75px;
 	display: flex;
 	justify-content: center;
 	z-index: 10;
-	transform: scale(0.66);
+	transform: scale(0.85);
 	transform-origin: bottom center;
 }
 
@@ -252,22 +237,26 @@ game-card {
 	transform-origin: center center;
 	margin: -80px -75px;
 	transition:
-		transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1),
+		transform 0.4s cubic-bezier(0.34, 1.25, 0.64, 1),
 		filter 0.3s ease;
 	cursor: pointer;
 	filter: drop-shadow(0 4px 12px rgba(10, 240, 255, 0.15));
 }
 
 game-card:hover {
-	filter: drop-shadow(0 4px 20px rgba(10, 240, 255, 0.35)) brightness(1.05);
+	filter: drop-shadow(0 4px 20px rgba(10, 240, 255, 0.5)) brightness(1.05);
 }
 
 game-card[active] {
 	filter: drop-shadow(0 8px 30px rgba(10, 240, 255, 0.5)) brightness(1.1);
+	z-index: 10;
 }
 
 game-card + game-card {
-	margin-left: clamp(-120px, calc((100vw - 900px) * 0.25), 115px);
+	margin-left: var(
+		--card-gap,
+		clamp(-120px, calc((100vw - 900px) * 0.25), 115px)
+	);
 }
 
 /* ---- Selection Highlight ---- */

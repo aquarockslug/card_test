@@ -44,46 +44,23 @@
             <button type="button" class="minimize" aria-label="Minimize"><span>Minimize</span></button>
           </header>
           <div class="window-pane">
+            <span class="btn-group-label">Cards</span>
             <div class="btn-group">
-              <button type="button" class="btn" onclick="addRandomCard()">Random</button>
-              <button type="button" class="btn" onclick="addRandomHand(5)">Draw 5</button>
-              <button type="button" class="btn" onclick="clearHand()">Clear</button>
+              <button type="button" class="btn" onclick="addCard('ace', null)">Draw Ace</button>
+              <button type="button" class="btn" onclick="hand.innerHTML = '';">Clear</button>
             </div>
 
-            <span class="btn-group-label">Hearts</span>
+            <span class="btn-group-label">Modify Rank</span>
             <div class="btn-group">
-              <button type="button" class="btn" onclick="addCard('ace','hearts')">A</button>
-              <button type="button" class="btn" onclick="addCard('2','hearts')">2</button>
-              <button type="button" class="btn" onclick="addCard('3','hearts')">3</button>
-              <button type="button" class="btn" onclick="addCard('4','hearts')">4</button>
-              <button type="button" class="btn" onclick="addCard('5','hearts')">5</button>
+              <button type="button" class="btn" onclick="decrementRank()">-</button>
+              <button type="button" class="btn" onclick="incrementRank()">+</button>
             </div>
-
-            <span class="btn-group-label">Spades</span>
+            <span class="btn-group-label">Modify Suite</span>
             <div class="btn-group">
-              <button type="button" class="btn" onclick="addCard('ace','spades')">A</button>
-              <button type="button" class="btn" onclick="addCard('2','spades')">2</button>
-              <button type="button" class="btn" onclick="addCard('3','spades')">3</button>
-              <button type="button" class="btn" onclick="addCard('4','spades')">4</button>
-              <button type="button" class="btn" onclick="addCard('5','spades')">5</button>
-            </div>
-
-            <span class="btn-group-label">Diamonds</span>
-            <div class="btn-group">
-              <button type="button" class="btn" onclick="addCard('ace','diamonds')">A</button>
-              <button type="button" class="btn" onclick="addCard('2','diamonds')">2</button>
-              <button type="button" class="btn" onclick="addCard('3','diamonds')">3</button>
-              <button type="button" class="btn" onclick="addCard('4','diamonds')">4</button>
-              <button type="button" class="btn" onclick="addCard('5','diamonds')">5</button>
-            </div>
-
-            <span class="btn-group-label">Clubs</span>
-            <div class="btn-group">
-              <button type="button" class="btn" onclick="addCard('ace','clubs')">A</button>
-              <button type="button" class="btn" onclick="addCard('2','clubs')">2</button>
-              <button type="button" class="btn" onclick="addCard('3','clubs')">3</button>
-              <button type="button" class="btn" onclick="addCard('4','clubs')">4</button>
-              <button type="button" class="btn" onclick="addCard('5','clubs')">5</button>
+              <button type="button" class="btn" onclick="modifySelectedCard({suite:'hearts'})">♥</button>
+              <button type="button" class="btn" onclick="modifySelectedCard({suite:'spades'})">♠</button>
+              <button type="button" class="btn" onclick="modifySelectedCard({suite:'diamonds'})">♦</button>
+              <button type="button" class="btn" onclick="modifySelectedCard({suite:'clubs'})">♣</button>
             </div>
           </div>
         </aside>
@@ -93,11 +70,11 @@
         <aside class="window" id="right-panel">
           <header class="title-bar">
             <button type="button" class="close hidden"><span>Close</span></button>
-            <span class="title">Log</span>
+            <span class="title">Data</span>
             <button type="button" class="minimize" aria-label="Minimize"><span>Minimize</span></button>
           </header>
           <div class="window-pane">
-            <p>Game log empty.</p>
+            <p>No data</p>
           </div>
         </aside>
       </div>
