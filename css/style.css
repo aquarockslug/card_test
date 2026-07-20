@@ -1,5 +1,6 @@
 body {
-	background-color: #000d20;
+	/* background-color: #000d20; */
+	background: #000d20;
 	overflow: hidden;
 	display: flex;
 	justify-content: center;
