@@ -249,6 +249,7 @@ game-card {
 		filter 0.3s ease;
 	cursor: pointer;
 	filter: drop-shadow(0 4px 12px rgba(10, 240, 255, 0.15));
+	transform-origin: center bottom;
 }
 
 game-card:hover {
